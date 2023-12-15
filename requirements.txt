@@ -1,2 +1,9 @@
 numpy
 opencv-python
+
+streamlit
+
+uvicorn
+fastapi
+python-multipart
+requests

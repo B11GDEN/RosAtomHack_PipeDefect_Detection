@@ -22,7 +22,7 @@ def main():
             st.error('You have to choose an image!', icon="🚨")
 
         else:
-            file_bytes = np.asarray(bytearray(image.read()), dtype=np.uint8)
+            file_bytes = np.asarray(bytearray(image.read()), dtype="uint8")
 
             opencv_image = cv2.imdecode(file_bytes, 1)
             original = opencv_image.copy()
@@ -32,7 +32,7 @@ def main():
                 # TODO: we need the model
                 # res = model(opencv_image)
                 time.sleep(10)
-                res = np.zeros((600, 600, 3), dtype='uint8')
+                res = np.zeros((600, 600, 3), dtype="uint8")
                 end = time.time() - start
 
             show_result(original, res, end)
