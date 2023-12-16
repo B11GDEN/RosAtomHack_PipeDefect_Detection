@@ -31,9 +31,6 @@ def main():
             if msg is not None:
                 img = img_restore(msg, shape)
 
-                cv2.imshow('server', img)
-                cv2.waitKey(1)
-
                 # TODO: we need the model
                 res = np.zeros((5, 3), dtype='uint8').tolist()
 
