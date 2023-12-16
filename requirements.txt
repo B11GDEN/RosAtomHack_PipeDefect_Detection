@@ -7,3 +7,4 @@ uvicorn
 fastapi
 python-multipart
 requests
+pika
