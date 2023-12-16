@@ -35,7 +35,7 @@ async def processing(files: List[UploadFile] = File(...)):
                 img_stream = io.BytesIO(contents)
                 img = cv2.imdecode(np.frombuffer(img_stream.read(), dtype="uint8"), 1)
 
-                res = cls(model())
+                res = cls(model(img))
 
                 results.append({"filename": file.filename,
                                 "result": "Success",
