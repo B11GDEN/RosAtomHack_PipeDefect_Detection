@@ -55,8 +55,82 @@ def show_result(original, result, time):
         st.text(f"Elapsed time: {time}")
 
 
+def plot():
+    from plotly.subplots import make_subplots
+    import plotly.graph_objects as go
+    import plotly.express as px
+
+    from skimage import data, filters, measure
+
+    from pathlib import Path
+    from os import listdir
+    from os.path import isfile, join
+
+    vis_idx = ['first', 'second']
+
+    label2color = {
+        1: 'darkviolet',
+        2: 'lightblue',
+        3: 'lime',
+        4: 'silver',
+        5: 'pink'
+    }
+
+    fig = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=vis_idx
+    )
+
+    img_dir = Path(__file__).absolute().parents[1] / 'imgs'
+    img_names = [f for f in listdir(img_dir) if isfile(join(img_dir, f))]
+    imgs = []
+    for img_name in img_names:
+        imgs.append(cv2.imread(str(img_dir / img_name)))
+
+    mask_dir = Path(__file__).absolute().parents[1] / 'masks'
+    mask_names = [f for f in listdir(mask_dir) if isfile(join(mask_dir, f))]
+    masks = []
+    for mask_name in mask_names:
+        masks.append(cv2.imread(str(mask_dir / mask_name)))
+
+    for i, idx in enumerate(vis_idx):
+        img = imgs[i]
+        img = img[24:, :]
+        mask = masks[i]
+        mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+
+
+        fig.add_trace(px.imshow(img).data[0], row=1+i//2, col=1+i%2)
+
+        for label in range(1, 6):
+            contours = measure.find_contours(mask, 0.5)
+            hoverinfo = "<br>".join([f"label: {label}"])
+
+            for contour in contours:
+                y, x = contour.T
+                fig.add_scatter(
+                    x=x,
+                    y=y,
+                    mode="lines",
+                    fill="toself",
+                    fillcolor=label2color[label],
+                    showlegend=False,
+                    opacity=0.5,
+                    hovertemplate=hoverinfo,
+                    hoveron="points+fills",
+                    row=1 + i // 2, col=1 + i % 2
+                )
+
+    fig.update_layout(height=800, width=800)
+
+    st.title("Segmentation Mask")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
 if __name__ == "__main__":
 
     st.title("Let's detect pipe defect!")
 
     main()
+    plot()
