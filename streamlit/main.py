@@ -6,12 +6,15 @@ import cv2
 import streamlit as st
 import numpy as np
 
+from models import Unet, ConvNeXtV2
 from types import NoneType
 
 st.set_page_config(layout="wide")
 
 
 def main():
+    model = Unet('path/to/Unet/weights')
+    cls = ConvNeXtV2('path/to/ConvNeXtV2/weights')
     main_form = st.form("main_form", clear_on_submit=True)
 
     with main_form:
@@ -31,9 +34,7 @@ def main():
 
             with st.spinner('Wait for it...'):
                 start = time.time()
-                # TODO: we need the model
-                # res = model(opencv_image)
-                time.sleep(10)
+                res = cls(model(opencv_image))
                 res = np.zeros((600, 600, 3), dtype="uint8")
                 end = time.time() - start
 
