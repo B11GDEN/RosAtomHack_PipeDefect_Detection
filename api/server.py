@@ -10,6 +10,10 @@ from typing import List
 from fastapi import FastAPI, File, UploadFile, status
 from fastapi.responses import JSONResponse
 
+from models import Unet, ConvNeXtV2
+
+model = Unet('path/to/Unet/weights')
+cls = ConvNeXtV2('path/to/ConvNeXtV2/weights')
 
 app = FastAPI()
 
@@ -31,8 +35,7 @@ async def processing(files: List[UploadFile] = File(...)):
                 img_stream = io.BytesIO(contents)
                 img = cv2.imdecode(np.frombuffer(img_stream.read(), dtype="uint8"), 1)
 
-                # TODO: we need the model
-                res = [1, 2, 3]
+                res = cls(model())
 
                 results.append({"filename": file.filename,
                                 "result": "Success",
