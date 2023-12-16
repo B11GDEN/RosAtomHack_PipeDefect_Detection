@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uvicorn
 import io
 import cv2
