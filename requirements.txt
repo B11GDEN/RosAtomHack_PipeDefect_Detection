@@ -1,2 +1,13 @@
 numpy
 opencv-python
+
+streamlit
+plotly
+scikit-image
+
+uvicorn
+fastapi
+python-multipart
+requests
+
+pika
