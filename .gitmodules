@@ -1,0 +1,3 @@
+[submodule "CFR-ICL-Interactive-Segmentation"]
+	path = CFR-ICL-Interactive-Segmentation
+	url = https://github.com/TitorX/CFR-ICL-Interactive-Segmentation.git
